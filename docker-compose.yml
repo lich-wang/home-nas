@@ -26,7 +26,6 @@ services:
 #      - 7359:7359/udp #optional
 #      - 1900:1900/udp #optional
     restart: unless-stopped
-
   qbittorrent:
     image: linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -209,3 +208,19 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Shanghai
+
+
+
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: nextcloud
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ${home_path}/config/nextcloud:/config
+      - ${home_path}/data/Files:/data
+    ports:
+      - 8443:443
+    restart: unless-stopped
