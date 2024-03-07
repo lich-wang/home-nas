@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/pi/media_center/home-nas
+cd $home_path
 sudo docker-compose down
 sudo docker-compose pull
 sudo docker image prune -f

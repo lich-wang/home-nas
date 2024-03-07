@@ -1,35 +1,35 @@
 version: "2.1"
 services:
-  jellyfin:
-    image: linuxserver/jellyfin:latest
-    network_mode: host
-    container_name: jellyfin
-    environment:
-      - PUID=0
-      - PGID=0
-      - TZ=Asia/Shanghai
-    volumes:
-      - ${home_path}/config/jellyfin:/config
-      - ${home_path}/data/Series:/data/tvshows
-      - ${home_path}/data/Movies:/data/movies
-      - /etc/letsencrypt/live/lich.tech/:/data/cert
-      - /opt/vc/lib:/opt/vc/lib
-    devices:
-      - /dev/vcsm-cma:/dev/vcsm #optional
-      - /dev/vchiq:/dev/vchiq #optional
-      - /dev/video10:/dev/video10 #optional
-      - /dev/video11:/dev/video11 #optional
-      - /dev/video12:/dev/video12 #optional
+#  jellyfin:
+#    image: linuxserver/jellyfin:latest
+#    network_mode: host
+#    container_name: jellyfin
+#    environment:
+#      - PUID=0
+#      - PGID=0
+#      - TZ=Asia/Shanghai
+#    volumes:
+#      - ${home_path}/config/jellyfin:/config
+#      - ${home_path}/data/Series:/data/tvshows
+#      - ${home_path}/data/Movies:/data/movies
+#      - /etc/letsencrypt/live/lich.tech/:/data/cert
+#      - /opt/vc/lib:/opt/vc/lib
+#    devices:
+#      - /dev/vcsm-cma:/dev/vcsm #optional
+#      - /dev/vchiq:/dev/vchiq #optional
+#      - /dev/video10:/dev/video10 #optional
+#      - /dev/video11:/dev/video11 #optional
+#      - /dev/video12:/dev/video12 #optional
 #    ports:
 #      - 8096:8096
 #      - 8920:8920 #optional
 #      - 7359:7359/udp #optional
 #      - 1900:1900/udp #optional
-    restart: unless-stopped
+#    restart: unless-stopped
   qbittorrent:
     image: linuxserver/qbittorrent:latest
     container_name: qbittorrent
-    mem_limit: 1024M
+#    mem_limit: 1024M
 #    cpus: 1
     restart: always
     network_mode: host
@@ -41,6 +41,7 @@ services:
     volumes:
       - ${home_path}/config/qbittorrent:/config
       - ${home_path}/Downloads:/downloads   # 替换成你自己的下载文件夹
+      - ${home_path}/data/Anime:/downloads/Bangumi
     healthcheck:
       test: ["CMD-SHELL", "curl -sS 'http://localhost:8080' || exit 1"]
       interval: 5s
@@ -110,29 +111,29 @@ services:
 #    ports:
 #      - 3579:3579
 
-  chinesesubfinder:
-    image: allanpk716/chinesesubfinder:latest-lite
-    volumes:
-      -  ${home_path}/config/chinesesubfinder:/config  # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径
-      -  ${home_path}/data/Series:/Series    # 请修改为你的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
-      -  ${home_path}/data/Movies:/Movies    # 请修改为你的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
-    environment:
-      - PUID=1000         # uid
-      - PGID=1000          # gid
-      - PERMS=true        # 是否重设/media权限
-      - TZ=Asia/Shanghai  # 时区
-      - UMASK=022         # 权限掩码
-    restart: always
-    network_mode: host
-    hostname: chinesesubfinder
-    container_name: chinesesubfinder
+#  chinesesubfinder:
+#    image: allanpk716/chinesesubfinder:latest-lite
+#    volumes:
+#      -  ${home_path}/config/chinesesubfinder:/config  # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径
+#      -  ${home_path}/data/Series:/Series    # 请修改为你的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
+#      -  ${home_path}/data/Movies:/Movies    # 请修改为你的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
+#    environment:
+#      - PUID=1000         # uid
+#      - PGID=1000          # gid
+#      - PERMS=true        # 是否重设/media权限
+#      - TZ=Asia/Shanghai  # 时区
+#      - UMASK=022         # 权限掩码
+#    restart: always
+#    network_mode: host
+#    hostname: chinesesubfinder
+#    container_name: chinesesubfinder
  #   ports:
  #     - 19035:19035  # 从0.20.0版本开始，通过webui来设置
  #     - 19037:19037  # webui 的视频列表读取图片用，务必设置不要暴露到外网
-    logging:
-        driver: "json-file"
-        options:
-          max-size: "100m" # 限制docker控制台日志大小，可自行调整
+ #   logging:
+ #       driver: "json-file"
+ #       options:
+ #         max-size: "100m" # 限制docker控制台日志大小，可自行调整
 
 
   bazarr:
