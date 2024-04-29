@@ -1,5 +1,70 @@
-version: "2.1"
+
 services:
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    network_mode: host
+#    ports:
+#      - 80:80
+#      - 9443:9443
+#      - 443:443
+    restart: always
+    volumes:
+      - ${home_path}/config/nginx/conf/:/etc/nginx/conf.d/:ro
+      - ${home_path}/config/certbot/conf/:/etc/nginx/ssl/:ro
+
+
+  certbot:
+    image: certbot/dns-cloudflare:latest
+    volumes:
+      - ${home_path}/config/certbot/conf/:/etc/letsencrypt/:rw
+
+
+
+  drawio:
+    image: jgraph/drawio
+    container_name: drawio
+    ports:
+      - "8016:8080"
+      - "8017:8443"
+    environment:
+      PUBLIC_DNS: 192.168.2.20
+      DRAWIO_BASE_URL: http://192.168.2.20:8016
+      DRAWIO_VIEWER_URL: http://192.168.2.20:8016/js/viewer.min.js
+      DRAWIO_LIGHTBOX_URL: http://192.168.2.20:8016
+      DRAWIO_GITLAB_ID: "0e672d9bb4ea8c3952c645c5859ad39987c76c815cdd8ae55553f0191528bfda"
+      DRAWIO_GITLAB_SECRET: "gloas-3a61e3e3755eda880487922971ab1fc616f8aa3135f075a7e0ae40cb32e71f53"
+      DRAWIO_GITLAB_URL: "http://192.168.2.20:8929"
+#      DRAWIO_CSP_HEADER: "default-src \\'self\\'; script-src \\'self\\' \\'unsafe-inline\\'; connect-src \\'self\\' http://192.168.2.20:8016; img-src * data:; media-src * data:; font-src * about:; style-src \\'self\\' \\'unsafe-inline\\'; object-src \\'none\\';"
+
+#      DRAWIO_CSP_HEADER: "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' http://192.168.2.20:8016; img-src * data:; media-src * data:; font-src * about:; style-src 'self' 'unsafe-inline';" 
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://192.168.2.20:8016 || exit 1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  gitlab:
+      image: gitlab/gitlab-ee:latest
+      container_name: gitlab
+      restart: always
+      hostname: '192.168.2.20'
+      environment:
+        GITLAB_OMNIBUS_CONFIG: |
+          external_url 'http://192.168.2.20:8929'
+          gitlab_rails['gitlab_shell_ssh_port'] = 2424
+      ports:
+        - '8929:8929'
+        - '8018:443'
+        - '2424:2424'
+      volumes:
+        - ${home_path}/data/gitlab/config:/etc/gitlab
+        - ${home_path}/data/gitlab/logs:/var/log/gitlab
+        - ${home_path}/data/gitlab/data:/var/opt/gitlab
+      shm_size: '256m'
 #  jellyfin:
 #    image: linuxserver/jellyfin:latest
 #    network_mode: host
@@ -225,3 +290,5 @@ services:
     ports:
       - 8443:443
     restart: unless-stopped
+
+
