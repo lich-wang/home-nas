@@ -42,7 +42,7 @@ services:
     restart: unless-stopped
 
   gitlab:
-    image: gitlab/gitlab-ee:latest
+    image: gitlab/gitlab-ce:latest
     container_name: gitlab
     restart: always
     hostname: 'lich.tech'
@@ -57,7 +57,7 @@ services:
     ports:
       - '8929:8929'
       - '8018:8018'
-      - '2424:2424'
+      - '2424:22'
     volumes:
       - ${home_path}/data/gitlab/config:/etc/gitlab
       - ${home_path}/data/gitlab/logs:/var/log/gitlab
