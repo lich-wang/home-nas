@@ -1,5 +1,13 @@
 services:
 
+  plantuml:
+    image: plantuml/plantuml-server:latest
+    ports:
+      - "8020:8080"
+    environment:
+      - TZ= Asia/Shanghai
+    restart: always
+
   nginx:
     container_name: nginx
     image: nginx:latest
