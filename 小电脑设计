@@ -1,4 +1,4 @@
-<mxfile host="lich.tech" modified="2024-07-04T09:09:29.525Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="YBVEgdhNXHvX2-BPLDjA" version="24.5.2" type="gitlab">
+<mxfile host="lich.tech" modified="2024-07-05T05:55:10.966Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="mj4Es6ZWnTrtpd5qCjHV" version="24.5.2" type="gitlab">
   <diagram name="Page-1" id="f_tTf8yWgwDd3zvnOf0x">
     <mxGraphModel dx="2074" dy="1132" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -81,6 +81,9 @@
         </mxCell>
         <mxCell id="-6uhwjFjySNUzd7Jvj30-16" value="11寸显示屏" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="100" y="280" width="265" height="157" as="geometry" />
+        </mxCell>
+        <mxCell id="dIE_BS7FmvpFIlP2_o4O-1" value="&lt;span style=&quot;color: rgb(32, 33, 36); font-family: &amp;quot;Google Sans&amp;quot;, Arial, sans-serif; font-size: 20px; text-align: left; background-color: rgb(255, 255, 255);&quot;&gt;68键盘&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="480" width="311" height="102" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
