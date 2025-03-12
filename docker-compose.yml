@@ -1,78 +1,82 @@
 services:
 
-  plantuml:
-    image: plantuml/plantuml-server:latest
-    ports:
-      - "8020:8080"
-    environment:
-      - TZ= Asia/Shanghai
-    restart: always
+#  plantuml:
+#    image: plantuml/plantuml-server:latest
+#    ports:
+#      - "8020:8080"
+#    environment:
+#      - TZ= Asia/Shanghai
+#    restart: always
 
-  nginx:
-    container_name: nginx
-    image: nginx:latest
-    network_mode: host
-    restart: always
-    volumes:
-      - ${home_path}/config/nginx/conf/:/etc/nginx/conf.d/:ro
-      - ${home_path}/config/certbot/conf/:/etc/nginx/ssl/:ro
+#  nginx:
+#    container_name: nginx
+#    image: nginx:latest
+#    network_mode: host
+#    restart: always
+#    volumes:
+#      - ${home_path}/config/nginx/conf/:/etc/nginx/conf.d/:ro
+#      - ${home_path}/config/certbot/conf/:/etc/nginx/ssl/:ro
 
   certbot:
     image: certbot/dns-cloudflare:latest
     volumes:
       - ${home_path}/config/certbot/conf/:/etc/letsencrypt/:rw
 
-  drawio:
-    image: jgraph/drawio
-    container_name: drawio
-    ports:
-      - "8016:8080"
-      - "8017:8443"
-    environment:
-      TZ: Asia/Shanghai
-      PUBLIC_DNS: lich.tech
-      DRAWIO_BASE_URL: https://lich.tech:1443
-      DRAWIO_VIEWER_URL: https://lich.tech:1443/js/viewer.min.js
-      DRAWIO_LIGHTBOX_URL: https://lich.tech:1443
-      DRAWIO_GITLAB_ID: "0e672d9bb4ea8c3952c645c5859ad39987c76c815cdd8ae55553f0191528bfda"
-      DRAWIO_GITLAB_SECRET: "gloas-1d7e8dab2295039b66796543d1e5545ab6718d2b8ade80bc051d3610c42c50d6"
-      DRAWIO_GITLAB_URL: "https://lich.tech:8018"
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -f http://192.168.2.20:8016 || exit 1"
-        ]
-      interval: 1m30s
-      timeout: 10s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
+#  drawio:
+#    image: jgraph/drawio
+#    container_name: drawio
+#    ports:
+#      - "8016:8080"
+#      - "8017:8443"
+#    environment:
+ #     TZ: Asia/Shanghai
+  #    PUBLIC_DNS: lich.tech
+  #    DRAWIO_BASE_URL: https://lich.tech:1443
+  #    DRAWIO_VIEWER_URL: https://lich.tech:1443/js/viewer.min.js
+  #    DRAWIO_LIGHTBOX_URL: https://lich.tech:1443
+  #    DRAWIO_GITLAB_ID: "0e672d9bb4ea8c3952c645c5859ad39987c76c815cdd8ae55553f0191528bfda"
+  #    DRAWIO_GITLAB_SECRET: "gloas-1d7e8dab2295039b66796543d1e5545ab6718d2b8ade80bc051d3610c42c50d6"
+  #    DRAWIO_GITLAB_URL: "https://lich.tech:8018"
+  #  healthcheck:
+  #    test:
+  #      [
+  #        "CMD-SHELL",
+  #        "curl -f http://192.168.2.20:8016 || exit 1"
+  #      ]
+  #    interval: 1m30s
+  #    timeout: 10s
+  #    retries: 5
+  #    start_period: 10s
+  #  restart: unless-stopped
 
-  gitlab:
-    image: gitlab/gitlab-ce:latest
-    container_name: gitlab
-    restart: always
-    hostname: 'lich.tech'
-    environment:
-      TZ: Asia/Shanghai
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://lich.tech:8018'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2424
-        nginx['ssl_certificate'] = "/etc/letsencrypt/live/lich.tech/fullchain.pem"
-        nginx['ssl_certificate_key'] = "/etc/letsencrypt/live/lich.tech/privkey.pem"
-        nginx['redirect_http_to_https'] = true
-    ports:
-      - '8929:8929'
-      - '8018:8018'
-      - '2424:22'
-    volumes:
-      - ${home_path}/data/gitlab/config:/etc/gitlab
-      - ${home_path}/data/gitlab/logs:/var/log/gitlab
-      - ${home_path}/data/gitlab/data:/var/opt/gitlab
-      - '${home_path}/config/certbot/conf:/etc/letsencrypt:ro'
-    shm_size: '256m'
-  #  jellyfin:
+ # gitlab:
+  #  image: gitlab/gitlab-ce:latest
+  #  container_name: gitlab
+  #  restart: always
+  #  hostname: 'lich.tech'
+  #  environment:
+  #    TZ: Asia/Shanghai
+  #    GITLAB_OMNIBUS_CONFIG: |
+  #      external_url 'https://lich.tech:8018'
+  #      gitlab_rails['gitlab_shell_ssh_port'] = 2424
+  #      nginx['ssl_certificate'] = "/etc/letsencrypt/live/lich.tech/fullchain.pem"
+  #      nginx['ssl_certificate_key'] = "/etc/letsencrypt/live/lich.tech/privkey.pem"
+  #      nginx['redirect_http_to_https'] = true
+  #      puma['worker_processes'] = 2  # 根据你的使用情况调整，默认为2
+  #      puma['threads_min'] = 1
+  #      puma['threads_max'] = 4
+
+  #  ports:
+  #    - '8929:8929'
+  #    - '8018:8018'
+  #    - '2424:22'
+  #  volumes:
+  #    - ${home_path}/data/gitlab/config:/etc/gitlab
+  #    - ${home_path}/data/gitlab/logs:/var/log/gitlab
+  #    - ${home_path}/data/gitlab/data:/var/opt/gitlab
+  #    - '${home_path}/config/certbot/conf:/etc/letsencrypt:ro'
+  #  shm_size: '512m'
+  ##  jellyfin:
   #    image: linuxserver/jellyfin:latest
   #    network_mode: host
   #    container_name: jellyfin

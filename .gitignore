@@ -1,5 +1,4 @@
 *.log
 *.* >5M
-config/*
 Downloads/*
 data/*
