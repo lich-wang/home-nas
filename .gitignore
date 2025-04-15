@@ -2,3 +2,4 @@
 *.* >5M
 Downloads/*
 data/*
+config/*
